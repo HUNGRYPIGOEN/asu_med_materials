@@ -1,6 +1,7 @@
 import type { MaterialItem, AcademicYear } from '../../types/materials';
 import { subjectToSlug } from '../../utils/slug';
 import { bloodMaterials } from './blood/blood';
+import { introductionMaterials } from './introduction/introduction';
 import { referenceBooksMaterials } from './reference/reference-books';
 
 /**
@@ -9,6 +10,7 @@ import { referenceBooksMaterials } from './reference/reference-books';
  */
 export const materialsData: MaterialItem[] = [
   ...bloodMaterials,
+  ...introductionMaterials,
   ...referenceBooksMaterials,
 ];
 

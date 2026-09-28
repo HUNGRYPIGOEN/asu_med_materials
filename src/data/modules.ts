@@ -11,6 +11,24 @@ const getReferenceBookSubjects = (): string[] =>
   );
 
 export const modulesData: ModuleInfo[] = [
+  {
+    id: 'year1-introduction',
+    code: 'MED101',
+    title: 'Introduction',
+    titleAr: 'مقدمة',
+    year: 1,
+    subjects: [
+      'Anatomy',
+      'Biochemistry',
+      'Genetics',
+      'Histology',
+      'Immunology',
+      'Physiology',
+      'Presentation Skills'
+    ],
+    description: 'Introductory Year 1 materials covering anatomy, physiology, histology, biochemistry, genetics, immunology, and study skills.',
+    descriptionAr: 'مواد السنة الأولى التمهيدية في التشريح، الفسيولوجيا، الهستولوجي، الكيمياء الحيوية، الوراثة، المناعة، ومهارات الدراسة.'
+  },
   // Year 2 - Blood & Lymphatic System
   {
     id: 'year2-blood',
