@@ -26,6 +26,13 @@ function namesOf(value: string | string[] | undefined): string[] {
   return Array.isArray(value) ? value : [value];
 }
 
+function getContributionYearBucket(material: { year?: number; moduleId?: string }): string {
+  if (material.moduleId && /^year\d+-reference-books$/.test(material.moduleId)) {
+    return 'references';
+  }
+  return String(material.year ?? 'unknown');
+}
+
 /**
  * Content makers only: grouped from the `author` field of materialsData
  * (whoever prepared the material). `addedBy` is intentionally ignored.
@@ -55,8 +62,9 @@ export function getAllContributors(): ContributorStats[] {
       }
       entry.authored += 1;
       entry.total += 1;
+      const bucket = getContributionYearBucket(material);
       entry.byType[material.type] = (entry.byType[material.type] ?? 0) + 1;
-      entry.byYear[String(material.year)] = (entry.byYear[String(material.year)] ?? 0) + 1;
+      entry.byYear[bucket] = (entry.byYear[bucket] ?? 0) + 1;
       if (material.subject?.trim()) {
         subjectSets.get(key)?.add(material.subject.trim());
       }
@@ -126,8 +134,9 @@ export function getResourceContributors(): ContributorStats[] {
       }
       entry.authored += 1;
       entry.total += 1;
+      const bucket = getContributionYearBucket(material);
       entry.byType[material.type] = (entry.byType[material.type] ?? 0) + 1;
-      entry.byYear[String(material.year)] = (entry.byYear[String(material.year)] ?? 0) + 1;
+      entry.byYear[bucket] = (entry.byYear[bucket] ?? 0) + 1;
       if (material.subject?.trim()) {
         subjectSets.get(key)?.add(material.subject.trim());
       }

@@ -9,7 +9,13 @@ export interface PersonContacts {
   telegram?: ContactLink[];
   github?: ContactLink[];
   linkedin?: ContactLink[];
-  instagram?: ContactLink[];
+  instagram?: ContactLink[];  
+  linktree?: ContactLink[];
+}
+
+export interface AuthorBadge {
+  text: string;
+  textAr?: string;
 }
 
 export interface AuthorEntry {
@@ -23,6 +29,7 @@ export interface AuthorEntry {
   order: number;
   matchNames?: string[];
   contacts?: PersonContacts;
+  badge?: AuthorBadge;
 }
 
 export interface ContributorProfile {

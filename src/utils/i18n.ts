@@ -4,6 +4,15 @@ import { translations } from '../i18n/translations';
 const STORAGE_KEY = 'asumed_lang';
 const DEFAULT_LANG: SupportedLanguage = 'en';
 
+function normalizeMultilineText(value: string): string {
+  return value
+    .replace(/\\r\\n/g, '\n')
+    .replace(/\\r/g, '\n')
+    .replace(/\\n/g, '\n')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n');
+}
+
 export function getInitialLanguage(): SupportedLanguage {
   if (typeof window === 'undefined') return DEFAULT_LANG;
   try {
@@ -158,19 +167,29 @@ export function applyLanguage(lang: SupportedLanguage): void {
     }
   });
 
-  document.querySelectorAll<HTMLElement>('[data-i18n-author-bio]').forEach((el) => {
-    const enText = el.getAttribute('data-bio-en') || '';
-    const arText = el.getAttribute('data-bio-ar') || '';
+  document.querySelectorAll<HTMLElement>('[data-i18n-author-badge]').forEach((el) => {
+    const enText = el.getAttribute('data-badge-en') || '';
+    const arText = el.getAttribute('data-badge-ar') || '';
     if (enText || arText) {
       el.textContent = lang === 'ar' ? (arText || enText) : (enText || arText);
     }
   });
 
+  document.querySelectorAll<HTMLElement>('[data-i18n-author-bio]').forEach((el) => {
+    const enText = normalizeMultilineText(el.getAttribute('data-bio-en') || '');
+    const arText = normalizeMultilineText(el.getAttribute('data-bio-ar') || '');
+    const selectedText = lang === 'ar' ? (arText || enText) : (enText || arText);
+    if (selectedText) {
+      el.innerHTML = selectedText.replace(/\n/g, '<br>');
+    }
+  });
+
   document.querySelectorAll<HTMLElement>('[data-i18n-contributor-note]').forEach((el) => {
-    const enText = el.getAttribute('data-note-en') || '';
-    const arText = el.getAttribute('data-note-ar') || '';
-    if (enText || arText) {
-      el.textContent = lang === 'ar' ? (arText || enText) : (enText || arText);
+    const enText = normalizeMultilineText(el.getAttribute('data-note-en') || '');
+    const arText = normalizeMultilineText(el.getAttribute('data-note-ar') || '');
+    const selectedText = lang === 'ar' ? (arText || enText) : (enText || arText);
+    if (selectedText) {
+      el.innerHTML = selectedText.replace(/\n/g, '<br>');
     }
   });
 
