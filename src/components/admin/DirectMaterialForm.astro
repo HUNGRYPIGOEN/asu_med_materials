@@ -193,5 +193,5 @@ const { modules } = Astro.props;
 <script>
   import { initDirectMaterialForm } from '../../scripts/admin/directMaterialForm';
   initDirectMaterialForm();
-  document.addEventListener('astro:page-load', initDirectMaterialForm);
+  document.addEventListener('astro:after-swap', initDirectMaterialForm);
 </script>

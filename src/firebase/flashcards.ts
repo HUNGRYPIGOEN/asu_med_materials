@@ -75,9 +75,14 @@ export async function getAllFlashcardDecks(): Promise<FlashcardDeck[]> {
   const db = getFirestoreDb();
   if (!db) return [];
 
-  const ref = collection(db, DECKS);
-  const snap = await getDocs(query(ref, orderBy('updatedAt', 'desc'), limit(300)));
-  return snap.docs.map((item) => toDeck(item.data(), item.id));
+  try {
+    const ref = collection(db, DECKS);
+    const snap = await getDocs(query(ref, orderBy('updatedAt', 'desc'), limit(300)));
+    return snap.docs.map((item) => toDeck(item.data(), item.id));
+  } catch (err) {
+    console.warn('[Firestore] Failed to fetch flashcard decks:', err);
+    return [];
+  }
 }
 
 export async function getFlashcardDeck(deckId: string): Promise<FlashcardDeck | null> {

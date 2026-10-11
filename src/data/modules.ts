@@ -27,7 +27,13 @@ export async function getAllModules(): Promise<ModuleInfo[]> {
  * Fetches ALL modules including inactive ones (for admin management).
  */
 export async function getAllModulesIncludingInactive(): Promise<ModuleInfo[]> {
-  return fetchModulesFromFirestore();
+  try {
+    const modules = await fetchModulesFromFirestore();
+    if (modules && modules.length > 0) return modules;
+  } catch (err) {
+    console.warn('[Modules] Failed to fetch modules from Firestore, falling back:', err);
+  }
+  return loadModules();
 }
 
 /**
